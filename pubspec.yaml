@@ -30,6 +30,7 @@ dependencies:
   provider:
   fluttertoast:
   cookie_jar:
+  fluro:
 dev_dependencies:
   flutter_test:
     sdk: flutter

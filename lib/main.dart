@@ -1,19 +1,58 @@
 
+import 'dart:async';
 import 'dart:io';
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:second/provider/theme.dart';
 import 'package:second/router/router.dart' as router;
 import 'package:provider/provider.dart';
-void main(){ 
-  runApp(MyApp());
-if (Platform.isAndroid) {
+import 'package:second/router/router.dart';
+import 'package:second/view/error_template/error_telempt.dart';
+
+import 'application.dart';
+Future<Null> main() async {
+  FlutterError.onError = (FlutterErrorDetails details) async {
+    if (isInDebugMode) {
+      FlutterError.dumpErrorToConsole(details);
+    } else {
+      Zone.current.handleUncaughtError(details.exception, details.stack);
+    }
+  };
+
+  runZoned<Future<void>>(() async {
+      Router router = Router();
+  Routes.configureRoutes(router);
+  Application.router = router;
+    setCustomErrorPage();
+    runApp(MyApp());//入口
+    if (Platform.isAndroid) {//平台appbar设置
     SystemUiOverlayStyle systemUiOverlayStyle =
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
+  },  onError: (error, stackTrace) async {
+    await _reportError(error, stackTrace);
+  });
 }
+
+Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
+  // TODO错误日志上报逻辑
+}
+
+bool get isInDebugMode {
+  // Assume you're in production mode.
+  bool inDebugMode = false;
+
+  // Assert expressions are only evaluated during development. They are ignored
+  // in production. Therefore, this code only sets `inDebugMode` to true
+  // in a development environment.
+  assert(inDebugMode = true);
+
+  return inDebugMode;
+}
+
 class MyApp extends StatefulWidget{
   @override
   _MyAppState createState()=>_MyAppState(); 
@@ -40,8 +79,7 @@ class _MyAppState extends State<MyApp>{
     scaffoldBackgroundColor: Colors.grey[100],
       ),
       title: 'lol',
-      onGenerateRoute: router.generateRoute,
-      initialRoute: '/',
+      onGenerateRoute: Application.router.generator,
     ),
     );
   }
