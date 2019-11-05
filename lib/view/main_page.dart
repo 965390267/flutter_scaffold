@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:second/utils/toast.dart';
-class HomeView extends StatefulWidget{
-    HomeView({Key key}) : super(key: key);
+import 'package:second/view/second/test.dart';
+
+import 'home/home.dart';
+
+class MainPage extends StatefulWidget{
+    MainPage({Key key}) : super(key: key);
   @override
   _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView>with SingleTickerProviderStateMixin{
+class _HomeViewState extends State<MainPage>with SingleTickerProviderStateMixin{
   PageController _pageController;
  int _selectedIndex = 0;
   DateTime _lastPressedAt;
@@ -25,14 +29,15 @@ setState((){
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
-      appBar: AppBar(
-        title:Text('主页')
-      ),
+      // appBar: AppBar(
+      //   title:Text('主页')
+      // ),
       body:PageView(
+     physics: NeverScrollableScrollPhysics(),
         controller: _pageController,
          children: <Widget>[
-            Text( '坦克',style: TextStyle(color:Colors.amber)),
-            Tab(text: '法师'),
+            HomeView(),// '坦克',style: TextStyle(color:Colors.amber)
+            Second(),
             Tab(text: '刺客'),
              Tab(text: '射手'),
          ],

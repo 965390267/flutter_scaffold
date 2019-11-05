@@ -10,7 +10,7 @@ class _SplashPagState extends State<SplashPage> {
   @override
   void initState() {
    Future.delayed(Duration(seconds: 5),(){
-     Application.router.navigateTo(context,'/home',replace: true);
+     Application.router.navigateTo(context,'/mainPage',replace: true);
    });
 	/// 2秒后跳转到主页面，上面注释的代码也可以做到倒计时
     // Observable.timer(0, Duration(seconds: 2)).listen((_){
