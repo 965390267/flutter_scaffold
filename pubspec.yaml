@@ -31,6 +31,9 @@ dependencies:
   fluttertoast:
   cookie_jar:
   fluro:
+
+  shared_preferences:
+  get_it:
 dev_dependencies:
   flutter_test:
     sdk: flutter

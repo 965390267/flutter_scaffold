@@ -6,8 +6,8 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:second/provider/theme.dart';
-import 'package:second/router/router.dart' as router;
 import 'package:provider/provider.dart';
+import 'package:second/router/navagate_service.dart';
 import 'package:second/router/router.dart';
 import 'package:second/view/error_template/error_telempt.dart';
 
@@ -25,6 +25,7 @@ Future<Null> main() async {
       Router router = Router();
   Routes.configureRoutes(router);
   Application.router = router;
+  Application.setupLocator();
     setCustomErrorPage();
     runApp(MyApp());//入口
     if (Platform.isAndroid) {//平台appbar设置
@@ -71,6 +72,7 @@ class _MyAppState extends State<MyApp>{
       ],
       child: MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: Application.getIt<NavigateService>().key,
       theme: ThemeData(
             brightness: Brightness.light,
     primaryColor: Colors.grey[100],

@@ -1,6 +1,7 @@
-import 'dart:io';
-import 'package:cookie_jar/cookie_jar.dart';
+
 import 'package:dio/dio.dart';
+// import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+// import 'package:cookie_jar/cookie_jar.dart';
 import 'package:second/request/dio/config.dart';
 class HttpUtil {
   static HttpUtil instance;
@@ -17,30 +18,31 @@ class HttpUtil {
   /*
    * config it and create
    */
+
   HttpUtil() {
     //BaseOptions、Options、RequestOptions 都可以配置参数，优先级别依次递增，且可以根据优先级别覆盖参数
     options = BaseOptions(
       //请求基地址,可以包含子路径
       baseUrl: BaseUrl.BASE_URL,
       //连接服务器超时时间，单位是毫秒.
-      connectTimeout: 10000,
+      connectTimeout: BaseUrl.connectTimeout??10000,
       //响应流上前后两次接受到数据的间隔，单位为毫秒。
-      receiveTimeout: 5000,
+      receiveTimeout: BaseUrl.receiveTimeout??5000,
       //Http请求头.
       headers: {
         //do something
         "version": "1.0.0"
       },
       //请求的Content-Type，默认值是[ContentType.json]. 也可以用ContentType.parse("application/x-www-form-urlencoded")
-      contentType: ContentType.json,
+      contentType:"application/json;charset=utf-8",
       //表示期望以那种格式(方式)接受响应数据。接受四种类型 `json`, `stream`, `plain`, `bytes`. 默认值是 `json`,
-      responseType: ResponseType.plain,
+      responseType: ResponseType.json,
     );
 
     dio = Dio(options);
 
     //Cookie管理
-    dio.interceptors.add(CookieManager(CookieJar()));
+   // dio.interceptors.add(CookieManager(CookieJar()));
 
     //添加拦截器
     dio.interceptors
@@ -152,3 +154,4 @@ class HttpUtil {
     token.cancel("cancelled");
   }
 }
+

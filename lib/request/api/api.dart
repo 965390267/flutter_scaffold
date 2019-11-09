@@ -1,18 +1,14 @@
+import 'package:second/models/heroSimple.dart';
 import 'package:second/request/dio/http.dart';
-import 'dart:convert' as convert;
-getHeroList ()async{
-       // 发起请求
 
-       var res;
- res= await  Http.get(
-      '/hero',
-    );
-    return convert.jsonDecode(res);
-}
+class Http{
+  static Future<HeroSimple> getHeroList( String phone, String password) async {
+    var response = await HttpUtil().post('/login/cellphone',data:{
+      'phone': phone,
+      'password': password,
+    });
 
-getHeroDetail (id)async{
-       // 发起请求
-return await  Http.get(
-      '/hero/$id',
-    );
+    return HeroSimple.fromJson(response.data);
+  }
+  //to do
 }
